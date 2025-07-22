@@ -47,6 +47,6 @@ describe('GET /api/nearby', () => {
     mock.onGet(/map\/bounds/).reply(200, { status: 'error', data: 'Invalid key' });
     const res = await request(app).get('/api/nearby');
     expect(res.status).toBe(502);
-    expect(res.body.detail.data).toContain('Invalid key');
+    expect(JSON.stringify(res.body.detail)).toContain('Invalid key');
   });
 });

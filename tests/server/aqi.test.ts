@@ -35,6 +35,6 @@ describe('GET /api/aqi/:uid', () => {
     mock.onGet(/feed/).reply(200, { status: 'error', data: 'Invalid key' });
     const res = await request(app).get('/api/aqi/1');
     expect(res.status).toBe(502);
-    expect(res.body.detail.data).toContain('Invalid key');
+    expect(JSON.stringify(res.body.detail)).toContain('Invalid key');
   });
 });

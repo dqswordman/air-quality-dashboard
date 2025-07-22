@@ -30,10 +30,10 @@ app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
   return res.status(500).json({ message: (err as Error).message });
 });
 
-const port = Number(process.env.PORT) || 4321;
+const PORT = process.env.PORT || 4321;
 
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(port);
+  app.listen(Number(PORT));
 }
 
 export default app;
