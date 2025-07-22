@@ -1,32 +1,43 @@
 # Air Quality Dashboard
 
-该项目通过 React 与 Node 构建，用于监测泰国空气质量。前端使用 Vite、Tailwind 与 Leaflet，后端基于 Express，所有代码均启用 TypeScript 严格模式。访问 WAQI API 时需要有效的 `WAQI_TOKEN`。免费 token 速率限制：**1 次/秒，1000 次/日**。
+A React and Node.js application for monitoring air quality in Thailand. The frontend uses Vite, Tailwind, and Leaflet, while the backend is built with Express. All code is written in strict TypeScript. A valid `WAQI_TOKEN` is required to access the WAQI API. Free token rate limits: **1 request/second, 1000 requests/day**.
 
-## 依赖
+## Features
+
+- Interactive map with real-time air quality data visualization
+- Detailed station information and pollutant measurements
+- Historical data viewing (daily, weekly, monthly)
+- Multiple pollutant tracking (PM2.5, PM10, O₃, NO₂, SO₂, CO)
+- Anomaly detection and alerts for unhealthy air quality levels
+- Multiple base map options (Street, Satellite, Hybrid, Terrain)
+- Responsive design for desktop and mobile devices
+- Comprehensive air quality health information
+
+## Dependencies
 
 - Node.js 18+
 - pnpm
 - React 18
 - Express 4
 
-## 快速开始
+## Quick Start
 
 ```bash
 pnpm install
 cp server/.env.example server/.env
-# 访问 https://aqicn.org/data-platform/token/ 申请 48 字符 token
-# 打开 server/.env 填入 WAQI_TOKEN 与 PORT（端口映射 5174 ↔ 4321）
+# Get a 48-character token from https://aqicn.org/data-platform/token/
+# Open server/.env and fill in WAQI_TOKEN and PORT (port mapping 5174 ↔ 4321)
 pnpm run dev
 ```
-前端默认运行在 `http://localhost:5174`，后端监听 `http://localhost:4321`，两者通过代理连接。访问 `http://localhost:5174` 预览界面。
+The frontend runs on `http://localhost:5174` by default, and the backend listens on `http://localhost:4321`. They are connected via proxy. Visit `http://localhost:5174` to preview the interface.
 
-## 脚本说明
+## Scripts
 
-- `pnpm run dev`：同时启动前端与后端
-- `pnpm run lint`：执行 ESLint 检查
-- `pnpm run test`：运行 Vitest 单元测试
+- `pnpm run dev`: Start both frontend and backend simultaneously
+- `pnpm run lint`: Run ESLint checks
+- `pnpm run test`: Run Vitest unit tests
 
-### CI 示例
+### CI Example
 
 ```yaml
 name: CI
@@ -43,17 +54,33 @@ jobs:
       - run: pnpm run lint && pnpm run test
 ```
 
-## 目录结构
+## Directory Structure
 
-- `client/` 前端源码
-- `server/` 后端源码
-- `tests/`  单元测试
+- `client/` Frontend source code
+- `server/` Backend source code
+- `tests/`  Unit tests
 
-## 贡献指南
+## User Guide
 
-欢迎提交 PR，建议遵循最小 diff 原则并确保 `pnpm run lint && pnpm run test` 通过。
+### Map Features
+- Use the Day/Week/Month buttons at the top of the map to view different time periods of air quality data
+- Click on any station marker to view detailed information
+- Select different base maps using the layers control in the top-right corner
+- Anomalous stations (AQI > 150) are highlighted with larger markers and warning indicators
 
-## 常见错误排查
+### Data Panel
+- View current air quality data with color-coded indicators
+- Check forecast trends for various pollutants
+- Access health recommendations based on current air quality levels
+- Review detailed sensor information and status
 
-- 若接口返回 502 且消息为 `WAQI error`，请检查 `WAQI_TOKEN` 是否填写正确。
+## Contribution Guidelines
+
+Pull requests are welcome. Please follow the minimum diff principle and ensure `pnpm run lint && pnpm run test` passes.
+
+## Troubleshooting
+
+- If the API returns a 502 error with the message `WAQI error`, check that your `WAQI_TOKEN` is correct.
+- For data loading issues, check the network connectivity and API rate limits.
+- Use the debug panel (accessible from the header) to check API health and test endpoints.
 

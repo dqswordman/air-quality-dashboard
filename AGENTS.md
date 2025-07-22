@@ -1,30 +1,60 @@
-# Repo Guidance
+# Repository Documentation
 
-## 环境要求
-- Node.js 18 或更高版本
-- 使用 pnpm 管理多工作区 (pnpm workspaces)
+## Environment Requirements
+- Node.js 18 or higher
+- pnpm for workspace management (pnpm workspaces)
 
-## 安装依赖
+## Installation
 ```bash
 pnpm install
 ```
-复制 `server/.env.example` 为 `server/.env`，填写 `WAQI_TOKEN` 与 `PORT`。
-`WAQI_TOKEN` 需在 <https://aqicn.org/data-platform/token/> 申请，48 字符，免费额度为 1 次/秒、1000 次/日。
+Copy `server/.env.example` to `server/.env` and fill in `WAQI_TOKEN` and `PORT`.
+`WAQI_TOKEN` can be obtained from <https://aqicn.org/data-platform/token/>, it's a 48-character token with free tier limits of 1 request/second and 1000 requests/day.
 
-## 质量检查
+## Quality Checks
 ```bash
 pnpm run lint && pnpm run test
 ```
 
-## 本地运行
+## Local Development
 ```bash
 pnpm run dev
 ```
-该命令会同时启动后端 `ts-node-dev --project tsconfig.json --respawn ...` 与前端 `vite`，端口映射为 5174 ↔ 4321。
+This command starts both the backend (`ts-node-dev --project tsconfig.json --respawn ...`) and frontend (`vite`) simultaneously, with port mapping 5174 ↔ 4321.
 
-## 最小改动
-在提交代码时遵循最小 diff‑patch 原则。
+## Technical Architecture
 
-## 修复策略
-出现问题时，先编写或完善相关测试复现 bug，再在确保 `pnpm run lint && pnpm run test` 通过的前提下进行最小修改。
+### Frontend
+- React 18 with TypeScript
+- State management with React Query (@tanstack/react-query)
+- UI components with Tailwind CSS
+- Interactive maps with Leaflet.js
+- Data visualization with Recharts and react-circular-progressbar
+- Vite for fast development and optimized builds
+
+### Backend
+- Express.js with TypeScript
+- API rate limiting and caching
+- Geospatial filtering for Thailand stations
+- Error handling with Axios interceptors
+- NodeCache for efficient data caching
+
+### Key Features Implementation
+- **Historical Data Views**: Implemented time-based data visualization (daily/weekly/monthly) with simulated data generation for extended time periods
+- **Multiple Pollutant Tracking**: Dynamic pollutant selection and visualization for PM2.5, PM10, O₃, NO₂, SO₂, and CO
+- **Map Visualization**: Interactive map with color-coded markers, tooltips, and multiple base map options
+- **Anomaly Detection**: Automatic detection and highlighting of stations with unhealthy air quality levels (AQI > 150)
+- **Responsive Design**: Adaptive layout for both desktop and mobile devices
+
+## Minimum Diff Principle
+When submitting code, follow the minimum diff-patch principle.
+
+## Fix Strategy
+When issues arise, first write or improve related tests to reproduce the bug, then make minimal changes while ensuring `pnpm run lint && pnpm run test` passes.
+
+## Performance Considerations
+- Frontend uses React Query for efficient data fetching and caching
+- Backend implements NodeCache to reduce external API calls
+- API rate limiting is handled to prevent exceeding WAQI API limits
+- Lazy loading and conditional rendering for optimal UI performance
 
