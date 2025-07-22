@@ -1,0 +1,18 @@
+{
+  "name": "air-quality-dashboard",
+  "private": true,
+  "workspaces": ["client", "server"],
+  "scripts": {
+    "dev": "concurrently -k -r \"pnpm --filter server dev\" \"pnpm --filter client dev\"",
+    "lint": "pnpm -r exec eslint . --ext .ts,.tsx,.js,.jsx",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1",
+    "vitest": "^0.34.1",
+    "supertest": "^6.3.3",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "jsdom": "^22.1.0"
+  }
+}
