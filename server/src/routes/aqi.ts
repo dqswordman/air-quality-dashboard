@@ -23,17 +23,27 @@ const cacheWrap = async <T>(key: string, fn: () => Promise<T>): Promise<T> => {
   return val;
 };
 
-router.get('/nearby', async (_req, res, next) => {
+router.get('/nearby', async (_req, res) => {
+  const url = `https://api.waqi.info/map/bounds/?latlng=5.6,97.3,20.5,105.64&token=${TOKEN}`;
   try {
-    const url = `https://api.waqi.info/map/bounds/?latlng=5.6,97.3,20.5,105.64&token=${TOKEN}`;
-    const raw = await cacheWrap('nearby', async () => (await axios.get(url)).data as { status: string; data: BoundsStation[] });
+    const raw = await cacheWrap('nearby', async () => (await axios.get(url)).data as { status: string; data: BoundsStation[] | string });
     if (raw.status !== 'ok') {
-      return res.status(502).json({ message: 'WAQI error' });
+      // eslint-disable-next-line no-console
+      console.error(raw);
+      return res.status(502).json({ message: 'WAQI error', detail: raw });
     }
     const list = raw.data.filter((s) => isThaiStation(s.station.name, s.lat, s.lon));
     return res.json({ status: 'ok', data: list });
-  } catch (err) {
-    return next(err);
+  } catch (err: unknown) {
+    const detail = axios.isAxiosError(err)
+      ? err.response?.data ?? err.message
+      : (err as Error).message;
+    // eslint-disable-next-line no-console
+    console.error(detail);
+    return res.status(502).json({
+      message: 'WAQI error',
+      detail,
+    });
   }
 });
 

@@ -23,3 +23,6 @@ pnpm run dev
 ## 最小改动
 在提交代码时遵循最小 diff‑patch 原则。
 
+## 修复策略
+出现问题时，先编写或完善相关测试复现 bug，再在确保 `pnpm run lint && pnpm run test` 通过的前提下进行最小修改。
+

@@ -7,6 +7,12 @@ import router from './routes/aqi';
 
 dotenv.config();
 
+if (!process.env.WAQI_TOKEN && process.env.NODE_ENV !== 'test') {
+  // eslint-disable-next-line no-console
+  console.error('WAQI_TOKEN is required');
+  process.exit(1);
+}
+
 const app = express();
 app.use(cors());
 
@@ -23,8 +29,9 @@ app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
   return res.status(500).json({ message: (err as Error).message });
 });
 
+const port = Number(process.env.PORT) || 4321;
+
 if (process.env.NODE_ENV !== 'test') {
-  const port = process.env.PORT || 4321;
   app.listen(port);
 }
 

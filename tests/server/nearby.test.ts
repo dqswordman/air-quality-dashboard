@@ -1,6 +1,10 @@
 import request from 'supertest';
 import { vi } from 'vitest';
 import axios from 'axios';
+
+process.env.NODE_ENV = 'test';
+process.env.WAQI_TOKEN = 'test';
+
 import app from '../../server/src/index';
 
 vi.mock('axios');
