@@ -16,7 +16,7 @@ pnpm install
 cp server/.env.example server/.env
 pnpm run dev
 ```
-访问 `http://localhost:5173` 预览界面。
+访问 `http://localhost:5174` 预览界面。
 
 ## 脚本说明
 

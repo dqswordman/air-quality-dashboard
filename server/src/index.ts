@@ -24,7 +24,7 @@ app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
 });
 
 if (process.env.NODE_ENV !== 'test') {
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 4321;
   app.listen(port);
 }
 
