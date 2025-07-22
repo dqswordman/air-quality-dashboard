@@ -9,6 +9,7 @@
 pnpm install
 ```
 复制 `server/.env.example` 为 `server/.env`，并填写 `WAQI_TOKEN` 与 `PORT`。
+token 可在 <https://aqicn.org/data-platform/token/> 免费申请，速率限制为 1 次/秒、1000 次/日。
 
 ## 质量检查
 ```bash

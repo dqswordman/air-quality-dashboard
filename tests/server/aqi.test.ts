@@ -26,4 +26,13 @@ describe('GET /api/aqi/:uid', () => {
     expect(res.body.status).toBe('ok');
     expect(res.body.data.aqi).toBe(10);
   });
+
+  it('returns 502 on invalid token', async () => {
+    mockedGet.mockResolvedValueOnce({
+      data: { status: 'error', data: 'Invalid key' },
+    });
+    const res = await request(app).get('/api/aqi/1');
+    expect(res.status).toBe(502);
+    expect(res.body.detail.data).toContain('Invalid key');
+  });
 });
