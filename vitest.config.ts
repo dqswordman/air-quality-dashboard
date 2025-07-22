@@ -8,5 +8,9 @@ export default defineConfig({
       ['tests/server/**', 'node'],
     ],
     setupFiles: './tests/setup.ts',
+    coverage: {
+      provider: 'v8',
+      lines: 85,
+    },
   },
 });
