@@ -6,7 +6,7 @@
     "dev": "ts-node-dev --project tsconfig.json --respawn --transpile-only src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "test": "vitest run"
+    "test": "vitest run --coverage"
   },
   "dependencies": {
     "axios": "^1.6.1",

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "concurrently -k -r \"pnpm --filter server dev\" \"pnpm --filter client dev\"",
     "lint": "pnpm -r exec eslint . --ext .ts,.tsx,.js,.jsx",
-    "test": "vitest run"
+    "test": "vitest run --coverage"
   },
   "devDependencies": {
     "concurrently": "^8.0.1",

@@ -54,7 +54,9 @@ router.get('/aqi/:uid', async (req, res, next) => {
     const url = `https://api.waqi.info/feed/@${uid}/?token=${TOKEN}`;
     const data = await cacheWrap(`aqi-${uid}`, async () => (await axios.get(url)).data);
     if (data.status !== 'ok') {
-      return res.status(502).json({ message: 'WAQI error' });
+      // eslint-disable-next-line no-console
+      console.error(data);
+      return res.status(502).json({ message: 'WAQI error', detail: data });
     }
     return res.json(data);
   } catch (err) {
