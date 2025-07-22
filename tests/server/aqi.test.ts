@@ -1,24 +1,28 @@
 import request from 'supertest';
-import { vi } from 'vitest';
+import { beforeEach, afterEach, vi } from 'vitest';
 import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
 process.env.NODE_ENV = 'test';
 process.env.WAQI_TOKEN = 'test';
 
 let app: typeof import('../../server/src/index').default;
+const mock = new MockAdapter(axios);
 
 beforeEach(async () => {
   vi.resetModules();
   app = (await import('../../server/src/index')).default;
+  mock.reset();
+  mock.onGet(/feed/).reply(200, {
+    status: 'ok',
+    data: { aqi: 10, forecast: { daily: { pm25: [] } } },
+  });
+});
+afterEach(() => {
+  mock.reset();
 });
 
-vi.mock('axios');
-const mockedGet = vi.mocked(axios.get);
-
 describe('GET /api/aqi/:uid', () => {
-  mockedGet.mockResolvedValue({
-    data: { status: 'ok', data: { aqi: 10, forecast: { daily: { pm25: [] } } } },
-  });
 
   it('returns aqi data', async () => {
     const res = await request(app).get('/api/aqi/1');
@@ -28,9 +32,7 @@ describe('GET /api/aqi/:uid', () => {
   });
 
   it('returns 502 on invalid token', async () => {
-    mockedGet.mockResolvedValueOnce({
-      data: { status: 'error', data: 'Invalid key' },
-    });
+    mock.onGet(/feed/).reply(200, { status: 'error', data: 'Invalid key' });
     const res = await request(app).get('/api/aqi/1');
     expect(res.status).toBe(502);
     expect(res.body.detail.data).toContain('Invalid key');

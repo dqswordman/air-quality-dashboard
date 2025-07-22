@@ -6,12 +6,13 @@ import axios from 'axios';
 import router from './routes/aqi';
 
 dotenv.config();
-
-if (!process.env.WAQI_TOKEN) {
+const TOKEN = process.env.WAQI_TOKEN?.trim();
+if (!TOKEN) {
   // eslint-disable-next-line no-console
   console.error('WAQI_TOKEN missing');
   process.exit(1);
 }
+process.env.WAQI_TOKEN = TOKEN;
 
 const app = express();
 app.use(cors());
