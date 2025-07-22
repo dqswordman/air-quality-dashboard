@@ -18,7 +18,7 @@ pnpm run lint && pnpm run test
 ```bash
 pnpm run dev
 ```
-该命令会同时启动后端 `ts-node-dev --project tsconfig.json --respawn ...` 与前端 `vite`，分别监听 5000 与 5173 端口。
+该命令会同时启动后端 `ts-node-dev --project tsconfig.json --respawn ...` 与前端 `vite`，分别监听 4321 与 5174 端口。
 
 ## 最小改动
 在提交代码时遵循最小 diff‑patch 原则。
