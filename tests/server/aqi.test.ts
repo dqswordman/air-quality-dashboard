@@ -5,7 +5,12 @@ import axios from 'axios';
 process.env.NODE_ENV = 'test';
 process.env.WAQI_TOKEN = 'test';
 
-import app from '../../server/src/index';
+let app: typeof import('../../server/src/index').default;
+
+beforeEach(async () => {
+  vi.resetModules();
+  app = (await import('../../server/src/index')).default;
+});
 
 vi.mock('axios');
 const mockedGet = vi.mocked(axios.get);

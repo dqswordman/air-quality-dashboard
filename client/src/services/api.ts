@@ -16,7 +16,7 @@ export interface AQIResponse {
   };
 }
 
-const base = import.meta.env.VITE_API_BASE ?? '';
+const base = '';
 
 export const fetchStations = async (): Promise<Station[]> => {
   const res = await axios.get<{ status: string; data: Station[] }>(`${base}/api/nearby`);

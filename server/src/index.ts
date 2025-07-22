@@ -7,9 +7,9 @@ import router from './routes/aqi';
 
 dotenv.config();
 
-if (!process.env.WAQI_TOKEN && process.env.NODE_ENV !== 'test') {
+if (!process.env.WAQI_TOKEN) {
   // eslint-disable-next-line no-console
-  console.error('WAQI_TOKEN is required');
+  console.error('WAQI_TOKEN missing');
   process.exit(1);
 }
 
