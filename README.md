@@ -15,7 +15,7 @@
 pnpm install
 cp server/.env.example server/.env
 # 访问 https://aqicn.org/data-platform/token/ 申请 48 字符 token
-# 打开 server/.env 填入 WAQI_TOKEN 与 PORT
+# 打开 server/.env 填入 WAQI_TOKEN 与 PORT（端口映射 5174 ↔ 4321）
 pnpm run dev
 ```
 前端默认运行在 `http://localhost:5174`，后端监听 `http://localhost:4321`，两者通过代理连接。访问 `http://localhost:5174` 预览界面。

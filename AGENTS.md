@@ -8,8 +8,8 @@
 ```bash
 pnpm install
 ```
-复制 `server/.env.example` 为 `server/.env`，并填写 `WAQI_TOKEN` 与 `PORT`。
-token 可在 <https://aqicn.org/data-platform/token/> 免费申请，速率限制为 1 次/秒、1000 次/日。
+复制 `server/.env.example` 为 `server/.env`，填写 `WAQI_TOKEN` 与 `PORT`。
+`WAQI_TOKEN` 需在 <https://aqicn.org/data-platform/token/> 申请，48 字符，免费额度为 1 次/秒、1000 次/日。
 
 ## 质量检查
 ```bash
@@ -20,7 +20,7 @@ pnpm run lint && pnpm run test
 ```bash
 pnpm run dev
 ```
-该命令会同时启动后端 `ts-node-dev --project tsconfig.json --respawn ...` 与前端 `vite`，分别监听 4321 与 5174 端口。
+该命令会同时启动后端 `ts-node-dev --project tsconfig.json --respawn ...` 与前端 `vite`，端口映射为 5174 ↔ 4321。
 
 ## 最小改动
 在提交代码时遵循最小 diff‑patch 原则。

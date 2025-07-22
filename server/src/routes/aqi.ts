@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import axios from 'axios';
-import cache from '../cache';
+import { cache } from '../cache';
 import { isThaiStation } from '../utils/isThailand';
 
 const router = Router();
-const TOKEN = process.env.WAQI_TOKEN ?? '';
+const TOKEN = (process.env.WAQI_TOKEN ?? '').trim();
 
 interface BoundsStation {
   uid: number;
@@ -23,15 +23,18 @@ const cacheWrap = async <T>(key: string, fn: () => Promise<T>): Promise<T> => {
 };
 
 router.get('/nearby', async (_req, res) => {
-  const url = `https://api.waqi.info/map/bounds/?latlng=5.613,97.343,20.465,105.637&token=${TOKEN}`;
+  const url =
+    'https://api.waqi.info/map/bounds/?latlng=5.613,97.343,20.465,105.637&token=' +
+    encodeURIComponent(TOKEN);
   try {
-    const json = await cacheWrap('nearby', async () => (await axios.get(url)).data);
-    if (json.status !== 'ok') {
+    const { data } = await axios.get(url, { timeout: 8000 });
+    if (data.status !== 'ok') {
       // eslint-disable-next-line no-console
-      console.error(json);
-      return res.status(502).json({ message: 'WAQI error', detail: json });
+      console.error(data);
+      return res.status(502).json({ message: 'WAQI error', detail: data });
     }
-    const list = (json.data as BoundsStation[]).filter((s) =>
+    cache.set('nearby', data);
+    const list = (data.data as BoundsStation[]).filter((s) =>
       isThaiStation(s.station.name, s.lat, s.lon),
     );
     return res.json({ status: 'ok', data: list });
@@ -51,7 +54,8 @@ router.get('/nearby', async (_req, res) => {
 router.get('/aqi/:uid', async (req, res, next) => {
   try {
     const { uid } = req.params;
-    const url = `https://api.waqi.info/feed/@${uid}/?token=${TOKEN}`;
+    const url =
+      `https://api.waqi.info/feed/@${uid}/?token=` + encodeURIComponent(TOKEN);
     const data = await cacheWrap(`aqi-${uid}`, async () => (await axios.get(url)).data);
     if (data.status !== 'ok') {
       // eslint-disable-next-line no-console
