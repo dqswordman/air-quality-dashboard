@@ -1,10 +1,9 @@
 import { Router } from 'express';
 import axios from 'axios';
-import NodeCache from 'node-cache';
+import cache from '../cache';
 import { isThaiStation } from '../utils/isThailand';
 
 const router = Router();
-const cache = new NodeCache({ stdTTL: 600 });
 const TOKEN = process.env.WAQI_TOKEN ?? '';
 
 interface BoundsStation {
@@ -26,9 +25,8 @@ const cacheWrap = async <T>(key: string, fn: () => Promise<T>): Promise<T> => {
 router.get('/nearby', async (_req, res) => {
   const url = `https://api.waqi.info/map/bounds/?latlng=5.613,97.343,20.465,105.637&token=${TOKEN}`;
   try {
-    const resp = await cacheWrap('nearby', async () => axios.get(url));
-    const json = resp.data as { status: string; data: BoundsStation[] | string };
-    if (resp.status !== 200 || json.status !== 'ok') {
+    const json = await cacheWrap('nearby', async () => (await axios.get(url)).data);
+    if (json.status !== 'ok') {
       // eslint-disable-next-line no-console
       console.error(json);
       return res.status(502).json({ message: 'WAQI error', detail: json });
