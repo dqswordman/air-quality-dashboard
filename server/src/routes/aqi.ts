@@ -14,14 +14,6 @@ interface BoundsStation {
   station: { name: string };
 }
 
-const cacheWrap = async <T>(key: string, fn: () => Promise<T>): Promise<T> => {
-  const cached = cache.get<T>(key);
-  if (cached) return cached;
-  const val = await fn();
-  cache.set(key, val);
-  return val;
-};
-
 router.get('/nearby', async (_req, res) => {
   const url =
     'https://api.waqi.info/map/bounds/?latlng=5.613,97.343,20.465,105.637&token=' +
@@ -54,14 +46,20 @@ router.get('/nearby', async (_req, res) => {
 router.get('/aqi/:uid', async (req, res, next) => {
   try {
     const { uid } = req.params;
+    const cacheKey = `aqi-${uid}`;
+    const cached = cache.get<unknown>(cacheKey) as { status?: string } | undefined;
+    if (cached && cached.status === 'ok') {
+      return res.json(cached);
+    }
     const url =
       `https://api.waqi.info/feed/@${uid}/?token=` + encodeURIComponent(TOKEN);
-    const data = await cacheWrap(`aqi-${uid}`, async () => (await axios.get(url)).data);
+    const { data } = await axios.get(url);
     if (data.status !== 'ok') {
       // eslint-disable-next-line no-console
       console.error(data);
       return res.status(502).json({ message: 'WAQI error', detail: data });
     }
+    cache.set(cacheKey, data);
     return res.json(data);
   } catch (err) {
     return next(err);
