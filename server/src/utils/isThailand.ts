@@ -1,6 +1,6 @@
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import { point } from '@turf/helpers';
-import thailand from '../assets/thailand.geojson';
+import thailand from '../assets/thailand';
 
 export const inThailand = (lat: number, lon: number): boolean =>
   booleanPointInPolygon(point([lon, lat]), thailand as GeoJSON.Polygon);
