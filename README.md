@@ -7,7 +7,7 @@
 ```bash
 pnpm i
 cp server/.env.example server/.env
-# 在 server/.env 中填写 WAQI_TOKEN
+# server/.env 已包含示例 WAQI_TOKEN
 pnpm dev
 ```
 访问 `http://localhost:5173` 即可预览。
