@@ -18,4 +18,9 @@ export default [
       '@typescript-eslint/no-explicit-any': 'error',
     },
   },
+  {
+    files: ['**/postcss.config.js', '**/tailwind.config.js'],
+    languageOptions: { sourceType: 'commonjs' },
+    rules: { 'no-undef': 'off' },
+  },
 ];
