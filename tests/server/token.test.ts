@@ -8,7 +8,12 @@ process.env.WAQI_TOKEN = 'bad';
 vi.mock('axios');
 const mockedGet = vi.mocked(axios.get);
 
-import app from '../../server/src/index';
+let app: typeof import('../../server/src/index').default;
+
+beforeEach(async () => {
+  vi.resetModules();
+  app = (await import('../../server/src/index')).default;
+});
 
 describe('GET /api/nearby invalid token', () => {
   mockedGet.mockResolvedValue({ data: { status: 'error', data: 'Invalid key' } });

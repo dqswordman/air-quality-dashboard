@@ -1,6 +1,6 @@
 # Air Quality Dashboard
 
-该项目通过 React 与 Node 构建，用于监测泰国空气质量。前端使用 Vite、Tailwind 与 Leaflet，后端基于 Express，所有代码均启用 TypeScript 严格模式。访问 WAQI API 时需要有效的 `WAQI_TOKEN`。
+该项目通过 React 与 Node 构建，用于监测泰国空气质量。前端使用 Vite、Tailwind 与 Leaflet，后端基于 Express，所有代码均启用 TypeScript 严格模式。访问 WAQI API 时需要有效的 `WAQI_TOKEN`。免费 token 每秒仅允许一次请求。
 
 ## 依赖
 
@@ -14,7 +14,7 @@
 ```bash
 pnpm install
 cp server/.env.example server/.env
-# 打开 server/.env 填入 WAQI_TOKEN
+# 打开 server/.env 填入 WAQI_TOKEN 与 PORT
 pnpm run dev
 ```
 前端默认运行在 `http://localhost:5174`，后端监听 `http://localhost:4321`，两者通过代理连接。访问 `http://localhost:5174` 预览界面。

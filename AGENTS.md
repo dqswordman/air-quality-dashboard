@@ -8,6 +8,7 @@
 ```bash
 pnpm install
 ```
+复制 `server/.env.example` 为 `server/.env`，并填写 `WAQI_TOKEN` 与 `PORT`。
 
 ## 质量检查
 ```bash
